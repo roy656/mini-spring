@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Article {
+public class Article  extends Timestamped{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -27,6 +27,9 @@ public class Article {
 
 	@Column(nullable = false, length = 1000)
 	private String content;
+
+
+	private Boolean isDone=false;
 
 	@JsonIgnore
 	private String imgUrl;
@@ -54,5 +57,10 @@ public class Article {
 		this.title = articleRequestDto.getTitle();
 		this.content = articleRequestDto.getContent();
 		this.member = member;
+	}
+
+	public void updateArticle(ArticleRequestDto articleRequestDto) {
+		this.title = articleRequestDto.getTitle();
+		this.content = articleRequestDto.getContent();
 	}
 }

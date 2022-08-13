@@ -55,4 +55,7 @@ public class Member {
 	public void addArticle(Article article) {
 		this.articleList.add(article);
 	}
+
+    public void removeArticle(Article article) {this.articleList.remove(article);
+	}
 }
