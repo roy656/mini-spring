@@ -3,6 +3,7 @@ package com.hanghea99.minispring.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.hanghea99.minispring.dto.ArticleRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,4 +47,12 @@ public class Article {
 	@OneToMany(mappedBy = "article")
 	@JsonIgnore
 	private List<Heart> heartList = new ArrayList<>();
+
+	//생성자 생성
+	public Article(ArticleRequestDto articleRequestDto, Member member) {
+		this.username = member.getUsername();
+		this.title = articleRequestDto.getTitle();
+		this.content = articleRequestDto.getContent();
+		this.member = member;
+	}
 }
