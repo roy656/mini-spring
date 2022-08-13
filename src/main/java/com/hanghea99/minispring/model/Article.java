@@ -50,17 +50,3 @@ public class Article  extends Timestamped{
 	@OneToMany(mappedBy = "article")
 	@JsonIgnore
 	private List<Heart> heartList = new ArrayList<>();
-
-	//생성자 생성
-	public Article(ArticleRequestDto articleRequestDto, Member member) {
-		this.username = member.getUsername();
-		this.title = articleRequestDto.getTitle();
-		this.content = articleRequestDto.getContent();
-		this.member = member;
-	}
-
-	public void updateArticle(ArticleRequestDto articleRequestDto) {
-		this.title = articleRequestDto.getTitle();
-		this.content = articleRequestDto.getContent();
-	}
-}
