@@ -1,8 +1,8 @@
 package com.hanghea99.minispring.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,44 +10,40 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//**
 @Getter
 @NoArgsConstructor
-@Table(name = "member")
 @Entity
-public class Member {
-
+public class Article {
 	@Id
-	@Column(name = "member_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String username;
 
 	@Column(nullable = false)
+	private String title;
+
+	@Column(nullable = false, length = 1000)
+	private String content;
+
 	@JsonIgnore
-	private String password;
+	private String imgUrl;
 
-	@Enumerated(EnumType.STRING)
-	private Authority authority;
+	@JsonIgnore
+	private int heartCnt;
+	private int commentCnt;
 
-	@OneToMany
-	@JsonManagedReference
-	private List<Article> articleList = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn
+	@JsonBackReference
+	private Member member;
 
-	@OneToMany(mappedBy = "member")
+	@OneToMany(cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Comment> commentList = new ArrayList<>();
 
-	@OneToMany(mappedBy = "member")
+	@OneToMany(mappedBy = "article")
 	@JsonIgnore
 	private List<Heart> heartList = new ArrayList<>();
-
-	@Builder
-	public Member(String username, String password, Authority authority) {
-		this.username = username;
-		this.password = password;
-		this.authority = authority;
-	}
 }
