@@ -16,12 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 	private final MemberRepository memberRepository;
 
-	public Long getSigninUserId(){
+	public Long getSigningUserId(){
 		String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 		return Long.valueOf(userId);
 	}
 	public Member getSinginUser(){
-		return memberRepository.findById(getSigninUserId())
+		return memberRepository.findById(getSigningUserId())
 				.orElseThrow(()-> new RuntimeException("유저를 찾지 못했습니다."));
 	}
 

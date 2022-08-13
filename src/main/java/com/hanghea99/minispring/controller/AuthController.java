@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 //**
 @RestController
 @RequestMapping("/sign")
@@ -26,8 +28,10 @@ public class AuthController {
 	}
 
 	@PostMapping("/singin")
-	public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto memberRequestDto) {
-		return ResponseEntity.ok(authService.login(memberRequestDto));
+	public String login(@RequestBody MemberRequestDto memberRequestDto, HttpServletResponse httpServletResponse) {
+		TokenDto tokenDto = authService.login(memberRequestDto);
+		httpServletResponse.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
+		return "환영합니다." + memberRequestDto.getUsername() + "님";
 	}
 
 	@PostMapping("/reissue")
