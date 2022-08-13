@@ -58,4 +58,10 @@ public class Member {
 
     public void removeArticle(Article article) {this.articleList.remove(article);
 	}
+
+	public void addComment(Comment comment) {this.commentList.add(comment);
+	}
+
+	public void removeComment(Comment comment) {this.commentList.remove(comment);
+	}
 }

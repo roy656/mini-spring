@@ -28,6 +28,8 @@ public class ArticleController {
         return articleService.readAllArticle();
     }
 
+    //게시글 상세 페이지
+
     //자바 게시물
 
     //파이썬게시물
