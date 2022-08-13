@@ -3,6 +3,7 @@ package com.hanghea99.minispring.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.hanghea99.minispring.dto.ArticleRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Article {
+public class Article  extends Timestamped{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -26,6 +27,9 @@ public class Article {
 
 	@Column(nullable = false, length = 1000)
 	private String content;
+
+
+	private Boolean isDone=false;
 
 	@JsonIgnore
 	private String imgUrl;
@@ -46,8 +50,3 @@ public class Article {
 	@OneToMany(mappedBy = "article")
 	@JsonIgnore
 	private List<Heart> heartList = new ArrayList<>();
-
-	@Column
-	@Enumerated(value = EnumType.STRING)
-	private Language language;
-}

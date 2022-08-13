@@ -50,4 +50,12 @@ public class Member {
 		this.password = password;
 		this.authority = authority;
 	}
+
+	//member에 article을 추가해준다.
+	public void addArticle(Article article) {
+		this.articleList.add(article);
+	}
+
+    public void removeArticle(Article article) {this.articleList.remove(article);
+	}
 }
