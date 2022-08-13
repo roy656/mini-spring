@@ -46,4 +46,8 @@ public class Article {
 	@OneToMany(mappedBy = "article")
 	@JsonIgnore
 	private List<Heart> heartList = new ArrayList<>();
+
+	@Column
+	@Enumerated(value = EnumType.STRING)
+	private Language language;
 }
