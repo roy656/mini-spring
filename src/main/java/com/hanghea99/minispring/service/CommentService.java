@@ -113,4 +113,18 @@ public class CommentService {
             return comment.getId() + "번 댓글 좋아요 취소" + ", 총 좋아요 수: " + comment.getHeartCnt();
         }
     }
+
+    @Transactional
+    public String selectedComment(Long commentId) {
+        Member member = memberRepository.findById(memberService.getSigningUserId())
+            .orElseThrow(() -> new NullPointerException("존재하지 않는 사용자입니다."));
+        Comment comment = commentRepository.findById(commentId)
+            .orElseThrow(()-> new NullPointerException("해당 댓글이 존재하지 않습니다."));
+
+        Article article = comment.getArticle();
+        if (member.getUsername().equals(article.getUsername())){
+            article.setSelectedComment(commentId);
+            return commentId + "번 댓글 채택 완료";
+        }else return "게시물 작성자만 채택할 수 있습니다.";
+    }
 }
