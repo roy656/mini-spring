@@ -18,7 +18,7 @@ public class Heart {
 	private Member member;
 
 	@ManyToOne
-	@JoinColumn(name = "POST_ID")
+	@JoinColumn(name = "ARTICLE_ID")
 	private Article article;
 
 	@ManyToOne

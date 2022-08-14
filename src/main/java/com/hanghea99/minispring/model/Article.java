@@ -51,6 +51,7 @@ public class Article  extends Timestamped {
 	@JsonIgnore
 	private List<Heart> heartList = new ArrayList<>();
 
+
 	public Article(ArticleRequestDto articleRequestDto, Member member) {
 		this.username = member.getUsername();
 		this.title = articleRequestDto.getTitle();
