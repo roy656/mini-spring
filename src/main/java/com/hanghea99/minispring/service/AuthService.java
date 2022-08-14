@@ -4,10 +4,7 @@ package com.hanghea99.minispring.service;
 
 import com.hanghea99.minispring.model.Member;
 import com.hanghea99.minispring.model.RefreshToken;
-import com.hanghea99.minispring.model.dto.MemberRequestDto;
-import com.hanghea99.minispring.model.dto.MemberResponseDto;
-import com.hanghea99.minispring.model.dto.TokenDto;
-import com.hanghea99.minispring.model.dto.TokenRequestDto;
+import com.hanghea99.minispring.model.dto.*;
 import com.hanghea99.minispring.repository.MemberRepository;
 import com.hanghea99.minispring.repository.RefreshTokenRepository;
 import com.hanghea99.minispring.security.jwt.TokenProvider;
@@ -37,6 +34,10 @@ public class AuthService {
 
 		Member member = memberRequestDto.toMember(passwordEncoder);
 		return MemberResponseDto.of(memberRepository.save(member));
+	}
+
+	public Boolean check(UsernameDto usernameDto) {
+		return !memberRepository.existsByUsername(usernameDto.getUsername());
 	}
 
 	@Transactional
@@ -81,4 +82,6 @@ public class AuthService {
 
 		return tokenDto;
 	}
+
+
 }
