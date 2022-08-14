@@ -3,14 +3,16 @@ package com.hanghea99.minispring.service;
 import com.hanghea99.minispring.dto.ArticleRequestDto;
 import com.hanghea99.minispring.dto.ArticleResponseDto;
 import com.hanghea99.minispring.model.Article;
+import com.hanghea99.minispring.model.Comment;
 import com.hanghea99.minispring.model.Heart;
 import com.hanghea99.minispring.model.Member;
+import com.hanghea99.minispring.model.dto.ArticleIdDto;
 import com.hanghea99.minispring.repository.ArticleRepository;
+import com.hanghea99.minispring.repository.CommentRepository;
 import com.hanghea99.minispring.repository.HeartRepository;
 import com.hanghea99.minispring.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+
+    private final CommentRepository commentRepository;
 
     private  final HeartRepository heartRepository;
 
@@ -47,6 +51,18 @@ public class ArticleService {
         return articleResponseDtoList;
     }
 
+    //상세 게시물 조회
+    public ArticleIdDto readArticleId(Long articleId) {
+        Article article = articleRepository.findById(articleId)
+            .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
+        Comment comment = commentRepository.findById(article.getSelectedCommentId())
+            .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
+
+        ArticleIdDto articleIdDto = new ArticleIdDto(article);
+        articleIdDto.setSelectedComment(comment);
+
+        return articleIdDto;
+    }
 
     //자바 게시물
 
@@ -105,4 +121,6 @@ public class ArticleService {
             return article.getId() + "번 게시물 좋아요 취소" + ", 총 좋아요 수 : " + article.getHeartCnt();
         }
     }
+
+
 }

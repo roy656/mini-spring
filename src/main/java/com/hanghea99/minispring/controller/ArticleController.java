@@ -3,6 +3,7 @@ package com.hanghea99.minispring.controller;
 import com.hanghea99.minispring.dto.ArticleRequestDto;
 import com.hanghea99.minispring.dto.ArticleResponseDto;
 import com.hanghea99.minispring.model.Article;
+import com.hanghea99.minispring.model.dto.ArticleIdDto;
 import com.hanghea99.minispring.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,10 @@ public class ArticleController {
     }
 
     //게시글 상세 페이지
-
+    @GetMapping("{articleId}")
+    public ArticleIdDto readArticleId(@PathVariable Long articleId){
+        return articleService.readArticleId(articleId);
+    }
     //자바 게시물
 
     //파이썬게시물
