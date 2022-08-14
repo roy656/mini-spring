@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 //**
@@ -33,8 +35,19 @@ public class AuthController {
 	@PostMapping("/login")
 	public String login(@RequestBody MemberRequestDto memberRequestDto, HttpServletResponse httpServletResponse) {
 		TokenDto tokenDto = authService.login(memberRequestDto);
-		httpServletResponse.setHeader("Authorization", "Bearer    " + tokenDto.getAccessToken());
+//		httpServletResponse.setHeader("Authorization", "Bearer    " + tokenDto.getAccessToken());
+		Cookie jwt = new Cookie("jwt",  tokenDto.getAccessToken());
+		jwt.setMaxAge(1000 * 60 * 60 * 12);
+		httpServletResponse.addCookie(jwt);
 		return "환영합니다." + memberRequestDto.getUsername() + "님";
+	}
+
+	@PostMapping("/logout")
+	private String logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+		Cookie jwt = new Cookie("jwt", null);
+		jwt.setMaxAge(0);
+		httpServletResponse.addCookie(jwt);
+		return "로그아웃";
 	}
 
 	@PostMapping("/reissue")
