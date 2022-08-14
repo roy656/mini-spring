@@ -32,7 +32,7 @@ public class ArticleService {
 
     //Error 공유 게시글 생성
     public Article createArticle(ArticleRequestDto articleRequestDto) {
-        Member member = memberService.getSinginUser();
+        Member member = memberService.getSingingUser();
         Article article = new Article(articleRequestDto,member);
 
         member.addArticle(article);
@@ -55,11 +55,13 @@ public class ArticleService {
     public ArticleIdDto readArticleId(Long articleId) {
         Article article = articleRepository.findById(articleId)
             .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
-        Comment comment = commentRepository.findById(article.getSelectedCommentId())
-            .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
-
         ArticleIdDto articleIdDto = new ArticleIdDto(article);
-        articleIdDto.setSelectedComment(comment);
+        if (article.getIsDone()){
+            Comment comment = commentRepository.findById(article.getSelectedCommentId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
+            articleIdDto.setSelectedComment(comment);
+        }
+
 
         return articleIdDto;
     }
@@ -75,8 +77,7 @@ public class ArticleService {
     public String updateArticle(Long id, ArticleRequestDto articleRequestDto) {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
-        Member member = memberRepository.findById(memberService.getSigningUserId())  //로그인 한 유저만 수정할 수있으니까
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 사용자입니다. 다시 로그인 후 시도해주세요."));
+        Member member = memberService.getSingingUser();  //로그인 한 유저만 수정할 수있으니까
 
         if(member.getUsername().equals(article.getUsername())){
             article.updateArticle(articleRequestDto);

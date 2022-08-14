@@ -122,6 +122,7 @@ public class CommentService {
             .orElseThrow(()-> new NullPointerException("해당 댓글이 존재하지 않습니다."));
 
         Article article = comment.getArticle();
+
         if (member.getUsername().equals(article.getUsername())){
             article.setSelectedComment(commentId);
             return commentId + "번 댓글 채택 완료";

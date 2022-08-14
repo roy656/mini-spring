@@ -32,7 +32,7 @@ public class Member {
 	@Enumerated(EnumType.STRING)
 	private Authority authority;
 
-	@OneToMany
+	@OneToMany(mappedBy = "member")
 	@JsonManagedReference
 	private List<Article> articleList = new ArrayList<>();
 

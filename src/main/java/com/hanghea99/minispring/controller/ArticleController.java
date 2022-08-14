@@ -42,13 +42,13 @@ public class ArticleController {
 
     //게시물 업데이트
     @PatchMapping("/{articleId}")
-    public String updateArticle(@PathVariable Long id, @RequestBody ArticleRequestDto articleRequestDto){
-        return articleService.updateArticle(id, articleRequestDto);
+    public String updateArticle(@PathVariable Long articleId, @RequestBody ArticleRequestDto articleRequestDto){
+        return articleService.updateArticle(articleId, articleRequestDto);
     }
     //게시물 지우기
     @DeleteMapping("/{articleId}")
-    public String deleteArticle(@PathVariable Long id){
-        return  articleService.deleteArticle(id);
+    public String deleteArticle(@PathVariable Long articleId){
+        return  articleService.deleteArticle(articleId);
     }
 
     //게시글 좋아요
