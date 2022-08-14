@@ -2,9 +2,12 @@ package com.hanghea99.minispring.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hanghea99.minispring.dto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -37,6 +40,8 @@ public class Comment extends Timestamped{
 	private int heartCnt;
 	private int commentCnt;
 
+
+
 	@OneToMany(mappedBy = "comment", orphanRemoval = true)
 	@JsonIgnore
 	private List<Heart> heartList = new ArrayList<>();
@@ -49,6 +54,17 @@ public class Comment extends Timestamped{
 	}
 	public void updateComment(CommentRequestDto commentRequestDto) {
 		this.content = commentRequestDto.getComment();
+	}
+
+
+	public void addHeart(Heart heart) {
+		this.heartList.add(heart);
+	}
+	public void removeHeart(Heart heart) {
+		this.heartList.remove(heart);
+	}
+	public void setHeartCnt(int heartListSize) {
+		this.heartCnt = heartListSize;
 	}
 
 

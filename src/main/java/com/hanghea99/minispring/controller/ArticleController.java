@@ -37,14 +37,20 @@ public class ArticleController {
     //JS 게시물
 
     //게시물 업데이트
-    @PatchMapping("/{id}")
+    @PatchMapping("/{articleId}")
     public String updateArticle(@PathVariable Long id, @RequestBody ArticleRequestDto articleRequestDto){
         return articleService.updateArticle(id, articleRequestDto);
     }
     //게시물 지우기
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{articleId}")
     public String deleteArticle(@PathVariable Long id){
         return  articleService.deleteArticle(id);
+    }
+
+    //게시글 좋아요
+    @PostMapping("/heart/{articleId}")
+    private String heartArticle(@PathVariable Long articleId){
+        return articleService.heartArticle(articleId);
     }
 }
 
