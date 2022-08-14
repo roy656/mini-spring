@@ -55,26 +55,26 @@ public class ArticleService {
     public String updateArticle(Long id, ArticleRequestDto articleRequestDto) {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
-        Member member = memberRepository.findById(memberService.getSigninUserId())  //로그인 한 유저만 수정할 수있으니까
+        Member member = memberRepository.findById(memberService.getSigningUserId())  //로그인 한 유저만 수정할 수있으니까
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 사용자입니다. 다시 로그인 후 시도해주세요."));
 
         if(member.getUsername().equals(article.getUsername())){
             article.updateArticle(articleRequestDto);
-            return article.getId() + "번 게시글 수정 완료";
-        }else return "작성자만 수정할 수 있습니다.";
+            return "수정 성공";
+        }else return "수정 실패";
     }
 
     //게시물 지우기
     public String deleteArticle(Long id) {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
-        Member member = memberRepository.findById(memberService.getSigninUserId())   //로그인 한 유저만 수정할 수있으니까
+        Member member = memberRepository.findById(memberService.getSigningUserId())   //로그인 한 유저만 수정할 수있으니까
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 사용자입니다. 다시 로그인 후 시도해주세요."));
 
         if(member.getUsername().equals(article.getUsername())){
             member.removeArticle(article);
             articleRepository.delete(article);
-            return article.getId() + "번 게시물 삭제완료.";
-        }else return "작성자만 삭제 할 수 있습니다.";
+            return "삭제 성공";
+        }else return "삭제 실패";
     }
 }

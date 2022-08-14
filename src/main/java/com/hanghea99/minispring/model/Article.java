@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Article  extends Timestamped{
+public class Article  extends Timestamped {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -29,7 +29,7 @@ public class Article  extends Timestamped{
 	private String content;
 
 
-	private Boolean isDone=false;
+	private Boolean isDone = false;
 
 	@JsonIgnore
 	private String imgUrl;
@@ -50,3 +50,24 @@ public class Article  extends Timestamped{
 	@OneToMany(mappedBy = "article")
 	@JsonIgnore
 	private List<Heart> heartList = new ArrayList<>();
+
+	public Article(ArticleRequestDto articleRequestDto, Member member) {
+		this.username = member.getUsername();
+		this.title = articleRequestDto.getTitle();
+		this.content = articleRequestDto.getContent();
+		this.member = member;
+	}
+
+	public void updateArticle(ArticleRequestDto articleRequestDto) {
+		this.title = articleRequestDto.getTitle();
+		this.content = articleRequestDto.getContent();
+	}
+
+	public void addComment(Comment comment) {
+		this.commentList.add(comment);
+	}
+	public void removeComment(Comment comment) {
+		this.commentList.remove(comment);
+	}
+
+}
