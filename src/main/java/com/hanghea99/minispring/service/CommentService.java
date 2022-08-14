@@ -4,9 +4,11 @@ import com.hanghea99.minispring.dto.CommentRequestDto;
 import com.hanghea99.minispring.dto.CommentResponseDto;
 import com.hanghea99.minispring.model.Article;
 import com.hanghea99.minispring.model.Comment;
+import com.hanghea99.minispring.model.Heart;
 import com.hanghea99.minispring.model.Member;
 import com.hanghea99.minispring.repository.ArticleRepository;
 import com.hanghea99.minispring.repository.CommentRepository;
+import com.hanghea99.minispring.repository.HeartRepository;
 import com.hanghea99.minispring.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ public class CommentService {
     private final ArticleRepository articleRepository;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private  final HeartRepository heartRepository;
 
     //comment 작성하기
     public Comment creatComment(Long articleId, CommentRequestDto commentRequestDto) {
@@ -45,7 +48,7 @@ public class CommentService {
 
     //comment 불러오기
     public List<CommentResponseDto> readAllComment(Long articleId) {
-        List<Comment> commentList = commentRepository.findAllById(articleId);
+        List<Comment> commentList = commentRepository.findAllByArticle_Id(articleId);
         List<CommentResponseDto> commentResponseList = new ArrayList<>();
 
         for(Comment comment : commentList){
@@ -85,5 +88,29 @@ public class CommentService {
             commentRepository.delete(comment);
             return "삭제 성공";
         }else return "삭제 실패";
+    }
+
+    //댓글 좋아요
+    public String heartComment(Long commentId) {
+        Member member = memberRepository.findById(memberService.getSigningUserId())
+                .orElseThrow(() -> new NullPointerException("존재하지 않는 사용자입니다."));
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(()-> new NullPointerException("해당 댓글이 존재하지 않습니다."));
+
+        if(heartRepository.findByMemberAndComment(member, comment) == null){
+            Heart heart = new Heart(member, comment);
+            member.addHeart(heart);
+            comment.addHeart(heart);
+            comment.setHeartCnt(comment.getHeartList().size());
+            heartRepository.save(heart);
+            return comment.getId() + "번 댓글 좋아요" + ", 총 좋아요 수 : " + comment.getHeartCnt();
+        }else  {
+            Heart heart = heartRepository.findByMemberAndComment(member, comment);
+            member.removeHeart(heart);
+            comment.removeHeart(heart);
+            comment.setHeartCnt(comment.getHeartList().size());
+            heartRepository.delete(heart);
+            return comment.getId() + "번 댓글 좋아요 취소" + ", 총 좋아요 수: " + comment.getHeartCnt();
+        }
     }
 }

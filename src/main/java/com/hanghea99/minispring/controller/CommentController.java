@@ -37,4 +37,9 @@ public class CommentController {
         return commentService.deleteComment(commentId);
     }
 
+    //댓글 좋아요
+    @PostMapping("/heart/{commentId}")
+    private String heartComment(@PathVariable Long commentId){
+        return commentService.heartComment(commentId);
+    }
 }

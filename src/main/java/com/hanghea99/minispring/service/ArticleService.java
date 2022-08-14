@@ -3,8 +3,10 @@ package com.hanghea99.minispring.service;
 import com.hanghea99.minispring.dto.ArticleRequestDto;
 import com.hanghea99.minispring.dto.ArticleResponseDto;
 import com.hanghea99.minispring.model.Article;
+import com.hanghea99.minispring.model.Heart;
 import com.hanghea99.minispring.model.Member;
 import com.hanghea99.minispring.repository.ArticleRepository;
+import com.hanghea99.minispring.repository.HeartRepository;
 import com.hanghea99.minispring.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+
+    private  final HeartRepository heartRepository;
 
     //Error 공유 게시글 생성
     public Article createArticle(ArticleRequestDto articleRequestDto) {
@@ -76,5 +80,29 @@ public class ArticleService {
             articleRepository.delete(article);
             return "삭제 성공";
         }else return "삭제 실패";
+    }
+
+    //게시글 좋아요
+    public String heartArticle(Long articleId) {
+        Member member = memberRepository.findById(memberService.getSigningUserId())
+                .orElseThrow(() -> new NullPointerException("존재하지 않는 사용자입니다."));
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(()-> new NullPointerException("해당 게시물이 존재하지 않습니다."));
+
+        if(heartRepository.findByMemberAndArticle(member, article) == null){
+            Heart heart = new Heart(member, article);
+            member.addHeart(heart);
+            article.addHeart(heart);
+            article.setHeartCnt(article.getHeartList().size());
+            heartRepository.save(heart);
+            return article.getId() + "번 게시물 좋아요" + ", 총 좋아요 수 : " + article.getHeartCnt();
+        }else  {
+            Heart heart = heartRepository.findByMemberAndArticle(member, article);
+            member.removeHeart(heart);
+            article.removeHeart(heart);
+            article.setHeartCnt(article.getHeartList().size());
+            heartRepository.delete(heart);
+            return article.getId() + "번 게시물 좋아요 취소" + ", 총 좋아요 수 : " + article.getHeartCnt();
+        }
     }
 }
