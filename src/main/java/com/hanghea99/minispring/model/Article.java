@@ -31,8 +31,9 @@ public class Article  extends Timestamped {
 
 	private Boolean isDone = false;
 
-	@JsonIgnore
 	private String imgUrl;
+
+	private Long selectedComment;
 
 	@JsonIgnore
 	private int heartCnt;
@@ -81,5 +82,9 @@ public class Article  extends Timestamped {
 	public void setHeartCnt(int heartListSize) {
 		this.heartCnt = heartListSize;
 	}
+	public void setSelectedComment(Long selectedComment) {
+		this.selectedComment = selectedComment;
+		this.isDone = true;
 	}
+}
 

@@ -1,6 +1,5 @@
 package com.hanghea99.minispring.dto;
 
-import com.hanghea99.minispring.model.Article;
 import com.hanghea99.minispring.model.Comment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -42,4 +42,9 @@ public class CommentController {
     private String heartComment(@PathVariable Long commentId){
         return commentService.heartComment(commentId);
     }
+
+    @PostMapping("/selected/{commentId}")
+    private String selectedComment(@PathVariable Long commentId){
+        return commentService.selectedComment(commentId);
+    }
 }
