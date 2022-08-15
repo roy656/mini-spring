@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 //**
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:4000"})
 @RequiredArgsConstructor
 public class AuthController {
 	private final AuthService authService;
