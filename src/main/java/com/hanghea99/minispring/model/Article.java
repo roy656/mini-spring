@@ -86,5 +86,8 @@ public class Article  extends Timestamped {
 		this.selectedCommentId = selectedCommentId;
 		this.isDone = true;
 	}
+	public void setImgUrl(String url) {
+		this.imgUrl = url;
+	}
 }
 

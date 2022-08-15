@@ -5,22 +5,33 @@ import com.hanghea99.minispring.model.dto.ArticleResponseDto;
 import com.hanghea99.minispring.model.Article;
 import com.hanghea99.minispring.model.dto.ArticleIdDto;
 import com.hanghea99.minispring.service.ArticleService;
+import com.hanghea99.minispring.service.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin
 @RequestMapping("/api/article")
 public class ArticleController {
     private final ArticleService articleService;
+    private final S3Uploader s3Uploader;
 
 
     //Error 공유 게시글 생성
     @PostMapping("")
     public Article createArticle(@RequestBody ArticleRequestDto articleRequestDto){
         return articleService.createArticle(articleRequestDto);
+    }
+
+    //이미지 등록
+    @PostMapping("/image/{articleId}")
+    public String upload(@PathVariable Long articleId, MultipartFile multipartFile, String dirName) throws IOException {
+        return s3Uploader.upload(articleId, multipartFile, "img");
     }
 
     //전체 게시물 조회
