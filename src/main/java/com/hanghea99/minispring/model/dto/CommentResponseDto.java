@@ -21,7 +21,5 @@ public class CommentResponseDto {
         this.id = comment.getId();
         this.comment = comment.getContent();
         this.username = comment.getUsername();
-
-        //date???
     }
 }
