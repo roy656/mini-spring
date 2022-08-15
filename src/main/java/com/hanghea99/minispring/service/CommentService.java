@@ -1,7 +1,7 @@
 package com.hanghea99.minispring.service;
 
-import com.hanghea99.minispring.dto.CommentRequestDto;
-import com.hanghea99.minispring.dto.CommentResponseDto;
+import com.hanghea99.minispring.model.dto.CommentRequestDto;
+import com.hanghea99.minispring.model.dto.CommentResponseDto;
 import com.hanghea99.minispring.model.Article;
 import com.hanghea99.minispring.model.Comment;
 import com.hanghea99.minispring.model.Heart;

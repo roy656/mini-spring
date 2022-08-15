@@ -1,4 +1,4 @@
-package com.hanghea99.minispring.dto;
+package com.hanghea99.minispring.model.dto;
 
 import lombok.Getter;
 

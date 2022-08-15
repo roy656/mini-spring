@@ -1,4 +1,4 @@
-package com.hanghea99.minispring.dto;
+package com.hanghea99.minispring.model.dto;
 
 import com.hanghea99.minispring.model.Comment;
 import lombok.Getter;
