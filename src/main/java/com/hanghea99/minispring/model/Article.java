@@ -3,7 +3,7 @@ package com.hanghea99.minispring.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.hanghea99.minispring.dto.ArticleRequestDto;
+import com.hanghea99.minispring.model.dto.ArticleRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

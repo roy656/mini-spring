@@ -1,16 +1,16 @@
-package com.hanghea99.minispring.dto;
+package com.hanghea99.minispring.model.dto;
 
 import com.hanghea99.minispring.model.Article;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @NoArgsConstructor
 public class ArticleResponseDto {
 
-    private LocalDateTime createdDate;
+    private String createdDate;
     private Long id;
     private String username;
     private String title;
@@ -18,7 +18,7 @@ public class ArticleResponseDto {
     private Boolean isDone;
 
     public ArticleResponseDto(Article article) {
-        this.createdDate = article.getCreatedAt();
+        this.createdDate = article.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
         this.id = article.getId();
         this.username = article.getUsername();
         this.title = article.getTitle();
